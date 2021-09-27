@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const router = require('./routes/routes');
+const enrutador = require('./routes/routes');
 const db = require('./models/index');
 
 const app = express();
@@ -13,13 +13,12 @@ db.sequelize.sync();
     console.log('Tablas restablecidas')
 });*/
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 app.use(express.json({limit:'50mb'}));
 
-app.use('/api/clase', router)
+app.use('/GOD/clase', enrutador);
 
-app.listen(8080, ()=>{
-    console.log('El servidor esta corriendo en el puerto 8080')
+app.listen(3000, ()=>{
+    console.log('El servidor esta corriendo en el puerto 3000')
 });
-//Terminar los controladores y rutas.
