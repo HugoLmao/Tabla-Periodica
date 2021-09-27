@@ -2,6 +2,6 @@ module.exports = {
     HOST:'localhost',
     USER:'postgres',
     PASSWORD:'1a2b',
-    DBNAME:'PeriodicTable',
+    DBNAME:'periodictable',
     dialect:'postgres',
 };
