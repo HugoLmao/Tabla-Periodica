@@ -8,5 +8,10 @@ module.exports = (sequelize, Sequelize) =>{
             type: Sequelize.INTEGER,
             unique:true,
         },
-    }),
+        statusDelete:{
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+        },
+    });
+    return Group;
 }

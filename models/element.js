@@ -13,14 +13,14 @@ module.exports = (sequelize, Sequelize) =>{
             unique:true,
         },
         atomicMass:{
-            type: Sequelize.INTEGER,
+            type: Sequelize.DECIMAL,
         },
         //Anexar image despues de saber como guardar imagenes en la base de datos
 
         statusDelete:{
-            typpe: Sequelize.BOOLEAN,
+            type: Sequelize.BOOLEAN,
             defaultValue: false,
-        }
+        },
     });
     return Element;
 };
