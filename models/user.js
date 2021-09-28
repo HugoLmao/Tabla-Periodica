@@ -1,21 +1,16 @@
 module.exports = (sequelize, Sequelize) =>{
-    const Element = sequelize.define('element',{
+    const User = sequelize.define('usere',{
         name:{
             type: Sequelize.STRING,
-            unique:true,
         },
-        simbol:{
+        lastName:{
             type: Sequelize.STRING,
-            unique:true,
         },
-        atomicNumber:{
-            type: Sequelize.INTEGER,
-            unique:true,
+        email:{
+            type: Sequelize.STRING,
+            unique: true,
         },
-        atomicMass:{
-            type: Sequelize.DECIMAL,
-        },
-        image:{
+        password:{
             type: Sequelize.STRING
         },
         statusDelete:{
@@ -23,5 +18,5 @@ module.exports = (sequelize, Sequelize) =>{
             defaultValue: false,
         },
     });
-    return Element;
-};
+    return User
+}

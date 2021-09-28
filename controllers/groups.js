@@ -2,7 +2,8 @@ const db = require('../models/index')
 const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 
-const group = db.group
+const element = db.element;
+const group = db.group;
 
 exports.createGroup = async(req, res) =>{
     try {
@@ -27,9 +28,13 @@ exports.getGroups = async(req, res) =>{
         const { groupName } = req.query;
 
         if(groupName){
-            const find = await element.findAll({
-                where: {name:{ [Op.iRegexp]: groupName } ,statusDelete: false },
-
+            const find = await group.findAll({
+                where: {
+                    statusDelete: false,
+                },
+                    include:{
+                        model: element
+                    }, 
             })
             return res.status(200).send(find);
         };
@@ -37,7 +42,31 @@ exports.getGroups = async(req, res) =>{
 
         const find = await group.findAll({
             where: { statusDelete: false},
+            include: {
+                model: element
+            },
         });
+        
+        return res.status(200).send(find)
+
+    }   catch (error) {
+        return res.status(500).send(message.error);
+    }
+};
+
+exports.getGroupById = async(req, res) =>{
+    try {
+        const { id }=req.params;
+
+        const find = await group.findByPk(id,{
+            include:{
+                model: element
+            },
+        });
+        if(!find)
+            return res.status(404).send({message:'No se encontro el grupo'});
+        if(find.statusDelete === true) 
+            return res.status(404).send({message:'No se encontro el grupo'});
         
         return res.status(200).send(find)
 
