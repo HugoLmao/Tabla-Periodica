@@ -3,7 +3,11 @@ module.exports = (sequelize, Sequelize) =>{
         name:{
             type: Sequelize.STRING,
             unique:true,
-        }
+        },
+        statusDelete:{
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
+        },
     });
     return Type
 }
