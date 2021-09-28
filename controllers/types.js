@@ -2,8 +2,8 @@ const db = require('../models/index')
 const Sequelize = require("sequelize")
 const Op = Sequelize.Op
 
+const element = db.element;
 const type = db.type
-const name = type.name
 
 exports.createType = async(req, res) =>{
     try {
@@ -26,19 +26,46 @@ exports.getTypes = async(req, res) =>{
         const { typeName } = req.query;
 
         if(typeName){
-            const find = await element.findAll({
-                where: { statusDelete: false },
-                include:{
-                    model:name,
-                    where:{name:{ [Op.iRegexp]: typeName }}
-                }
+            const find = await type.findAll({
+                where: {
+                    statusDelete: false,
+                },
+                    include:{
+                        model: element
+                    }, 
             })
             return res.status(200).send(find);
         };
 
         const find = await type.findAll({
-            where: { statusDelete: false},
+            where: {
+                statusDelete: false
+            },
+            include:{
+                model: element
+            },
         });
+        
+        return res.status(200).send(find)
+
+    }   catch (error) {
+        return res.status(500).send(message.error);
+    }
+};
+
+exports.getTypeById = async(req, res) =>{
+    try {
+        const { id }=req.params;
+
+        const find = await type.findByPk(id,{
+            include:{
+                model: element
+            },
+        });
+        if(!find)
+            return res.status(404).send({message:'No se encontro el tipo'});
+        if(find.statusDelete === true) 
+            return res.status(404).send({message:'No se encontro el tipo'});
         
         return res.status(200).send(find)
 
