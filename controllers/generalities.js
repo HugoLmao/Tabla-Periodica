@@ -5,8 +5,8 @@ const db = require('../models/index');
 
 const user = db.user;
 
-const privateyKey =  'j0jOnäkimÿoN4b0k3Nb35toan1më';
-const expireIn = '5m';
+const privateKey =  'j0jOnäkimÿoN4b0k3Nb35toan1më';
+const { expireIn } = '1h';
 
 exports.login = async(req, res)=>{
     try {
@@ -35,7 +35,7 @@ exports.login = async(req, res)=>{
         let token = jwt.sign({
             user: response
         }, 
-        privateyKey,
+        privateKey,
         expireIn
         );
 

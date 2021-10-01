@@ -77,7 +77,6 @@ exports.getElements = async(req, res) =>{
         //Encontrar elementos por un numero atomico.
         const { elementAN } = req.query;
 
-
         if(elementAN){
             const find = await element.findAll({
                 where: {
@@ -89,57 +88,6 @@ exports.getElements = async(req, res) =>{
             return res.status(200).send(find);
         };
 
-    //Para encontrar elementos entre dos numeros atomicos
-    /*const { ?, ? } = req.query;
-
-        if(elementANbetween){
-            const find = await element.findAll({
-                where: {
-                    atomicNumber: {[Op.between]: [? , ?]}, 
-                    statusDelete: false,
-                }
-            })
-            return res.status(200).send(find);
-        };
-
-    //Para encontrar elementos fuera de dos numeros.
-        const { elementANnotBetween } = req.query;
-
-        if(elementANnotBetween){
-            const find = await element.findAll({
-                where: {
-                    atomicNumber: {[Op.notBetween]: elementANnotBetween}, 
-                    statusDelete: false,
-                }
-            })
-            return res.status(200).send(find);
-        } CODIGO INCOMPLETO*/
-
-    //Para encontrar elementos con numero atomico mayor a un numero
-        const { elementANgt } = req.query;
-
-        if(elementANgt){
-            const find = await element.findAll({
-                where: {
-                    atomicNumber: {[Op.gt]: elementANgt},
-                    statusDelete: false,
-                }
-            })
-            return res.status(200).send(find);
-        };
-
-    //Para encontrar elementos con numero atomico menor a un numero
-        const { elementANlt } = req.query;
-
-        if(elementANlt){
-            const find = await element.findAll({
-                where: {
-                    atomicNumber: {[Op.lt]: elementANlt},
-                    statusDelete: false,
-                }
-            })
-            return res.status(200).send(find);
-        };
     
     //Para encontrar elementos por su tipo, grupo y periodo usar el metodo "get" de cada uno o "getById"
 
@@ -230,5 +178,23 @@ exports.getElementById = async(req, res) =>{
 
     } catch (error) {
         return res.status(500).send(message.error);
+    }
+};
+
+exports.getNelements = async (req, res)=>{
+    try {
+        const { atomicNumber1 } = (req.params);
+        const { atomicNumber2 } = (req.params);
+
+            const find = await element.findAll({
+                where: {
+                    atomicNumber: {[Op.between]: [atomicNumber1, atomicNumber2] }, 
+                    statusDelete: false,
+                }
+            });
+            return res.status(200).send(find);
+
+    } catch (error) {
+        return res.status(500).send(message.error);      
     }
 };
