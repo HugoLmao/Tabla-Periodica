@@ -11,6 +11,7 @@ exports.createGroup = async(req, res) =>{
 
         if(!body.name) return res.status(404).send({message:'name es requerido'});
         if(!body.number) return res.status(404).send({message:'number es requerido'});
+        
 
         const create = await group.create({
             name: body.name,

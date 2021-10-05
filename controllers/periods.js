@@ -11,6 +11,16 @@ exports.createPeriod = async(req, res) =>{
 
         if(!body.number) return res.status(404).send({message:'number es requerido'});
 
+        const findRepeated = await period.findOne({
+            where:{
+                number:body.number,
+                statusDelete:false
+            }})
+        if(!findRepeated)
+            return res.status(200).send()
+        if(findRepeated)
+            return res.status(409).send({message:'Periodo ya existente.'})
+
         const create = await period.create({
             name: body.name,
             number: body.number,

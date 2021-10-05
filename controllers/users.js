@@ -24,6 +24,17 @@ exports.createUser = async(req, res) =>{
                 statusDelete: false,
             }
         });
+        const findRepeatedEmail = await user.findOne({
+            where: {
+                email: body.email,
+                statusDelete: false,
+            }
+        });
+
+        if (findRepeatedEmail)
+            return res.status(409).send({message:'Email ya en uso.'})
+        if (!findRepeatedEmail)
+            return res.status(200).send()
 
         let encriptedPassword = bcrypt.hashSync(body.password, 10)
 
