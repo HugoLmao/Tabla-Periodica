@@ -1,8 +1,7 @@
 module.exports = (sequelize, Sequelize) =>{
     const Type = sequelize.define('type',{
         name:{
-            type: Sequelize.STRING,
-            unique:true,
+            type: Sequelize.STRING
         },
         statusDelete:{
             type: Sequelize.BOOLEAN,

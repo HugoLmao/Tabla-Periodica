@@ -1,10 +1,9 @@
 module.exports = (sequelize, Sequelize) =>{
     const Element = sequelize.define('element',{
         name:{
-            type: Sequelize.STRING,
-            unique:true,
+            type: Sequelize.STRING
         },
-        simbol:{
+        symbol:{
             type: Sequelize.STRING,
             unique:true,
         },
