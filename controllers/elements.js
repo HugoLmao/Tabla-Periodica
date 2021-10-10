@@ -13,7 +13,7 @@ exports.createElement = async(req, res)=>{
         const { body } = req;
 
         if(!body.name) return res.status(404).send({message:'name es requerido'});
-        if(!body.symbol) return res.status(404).send({message:'simbol es requerido'});
+        if(!body.symbol) return res.status(404).send({message:'symbol es requerido'});
         if(!body.atomicNumber) return res.status(404).send({message:'atomicNumber es requerido'});
         if(!body.atomicMass) return res.status(404).send({message:'atomicMass es requerido'});
         
@@ -53,10 +53,10 @@ exports.createElement = async(req, res)=>{
             return res.status(404).send({message:'Period no encontrado'});
         if(!findGroup)
             return res.status(404).send({message:'Group no encontrado'});
-        if(!findRepeatedSymbol)
-            return res.status(200).send();
-        if(!findRepeatedAtomicNumber)
-            return res.status(200).send();
+        if(findRepeatedSymbol === false)
+            return res.status(200).next();
+        if(findRepeatedAtomicNumber === false)
+            return res.status(200).next();
         if(findRepeatedSymbol)
             return res.status(409).send({message:'El simbolo ya esta ocupadoo.'});
         if(findRepeatedAtomicNumber)
@@ -138,6 +138,24 @@ exports.updateElement = async (req, res) => {
         if(!body.periodId) return res.status(404).send({message:'periodid es requerido'});
         if(!body.groupId) return res.status(404).send({message:'groupid es requerido'});
 
+        const findRepeatedSymbol = await element.findOne({
+            where:{
+                symbol:body.symbol,
+                statusDelete:false
+            }})
+        const findRepeatedAtomicNumber = await element.findOne({
+            where:{
+                atomicNumber:body.atomicNumber,
+                statusDelete:false
+            }})
+        if(findRepeatedSymbol === false)
+            return res.status(200).next();
+        if(findRepeatedAtomicNumber === false)
+            return res.status(200).next();
+        if(findRepeatedSymbol)
+            return res.status(409).send({message:'El simbolo ya esta ocupadoo.'});
+        if(findRepeatedAtomicNumber)
+            return res.status(409).send({message:'El numero atomico ya esta ocupadoo.'});
 
         const validate = await element.findOne({
             where:{ id: params.id },
