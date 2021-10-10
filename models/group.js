@@ -4,7 +4,8 @@ module.exports = (sequelize, Sequelize) =>{
             type: Sequelize.STRING,
         },
         number:{
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            unique: true,
         },
         statusDelete:{
             type: Sequelize.BOOLEAN,
