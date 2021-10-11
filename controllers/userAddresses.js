@@ -14,7 +14,7 @@ exports.createUserAddress = async(req, res) =>{
         if (!body.city)
             return res.send(400).send({message:'city es requerido'})
 
-        const create= await address.create({
+        const create= await userAddress.create({
             country: body.country,
             state: body.state,
             city: body.city,

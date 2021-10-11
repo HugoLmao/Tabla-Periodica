@@ -11,6 +11,16 @@ exports.createGroup = async(req, res) =>{
 
         if(!body.name) return res.status(404).send({message:'name es requerido'});
         if(!body.number) return res.status(404).send({message:'number es requerido'});
+        
+        const findRepeatedNumber = await group.findOne({
+            where:{
+                number:body.number,
+                statusDelete:false
+            }});
+        if (findRepeatedNumber)
+            return res.status(409).send({message:'Numero de grupo ocupado.'});
+        if (findRepeatedNumber === false)
+            return res.status(200).next();
 
         const create = await group.create({
             name: body.name,
@@ -83,6 +93,16 @@ exports.updateGroup = async (req, res) => {
         if(!body.name) return res.status(404).send({message:'name es requerido'});
         if(!body.number) return res.status(404).send({message:'number es requerido'});
 
+        const findRepeatedNumber = await group.findOne({
+            where:{
+                number:body.number,
+                statusDelete:false
+            }});
+        if (findRepeatedNumber)
+            return res.status(409).send({message:'Numero de grupo ocupado.'});
+        if (findRepeatedNumber === false)
+            return res.status(200).next();
+        
         const validate = await group.findOne({
             where:{ id: params.id },
         });

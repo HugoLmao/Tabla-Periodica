@@ -24,6 +24,17 @@ exports.createUser = async(req, res) =>{
                 statusDelete: false,
             }
         });
+        const findRepeatedEmail = await user.findOne({
+            where: {
+                email: body.email,
+                statusDelete: false,
+            }
+        });
+
+        if (findRepeatedEmail)
+            return res.status(409).send({message:'Email ya en uso.'})
+        if (findRepeatedEmail === false)
+            return res.status(200).next()
 
         let encriptedPassword = bcrypt.hashSync(body.password, 10)
 
@@ -86,6 +97,17 @@ exports.updateUser = async (req, res) => {
         if(!body.password) return res.status(404).send({message:'password es requerido'});
         if(!body.userAddressId) return res.status(404).send({message:'userAddressId es requerido'});
 
+        const findRepeatedEmail = await user.findOne({
+            where: {
+                email: body.email,
+                statusDelete: false,
+            }
+        });
+
+        if (findRepeatedEmail)
+            return res.status(409).send({message:'Email ya en uso.'})
+        if (findRepeatedEmail === false)
+            return res.status(200).next()
 
         const validate = await user.findOne({
             where:{ id: params.id },

@@ -11,6 +11,16 @@ exports.createPeriod = async(req, res) =>{
 
         if(!body.number) return res.status(404).send({message:'number es requerido'});
 
+        const findRepeated = await period.findOne({
+            where:{
+                number:body.number,
+                statusDelete:false
+            }})
+        if(findRepeated === false)
+            return res.status(200).next()
+        if(findRepeated)
+            return res.status(409).send({message:'Periodo ya existente.'})
+
         const create = await period.create({
             name: body.name,
             number: body.number,
@@ -68,6 +78,17 @@ exports.updatePeriod = async (req, res) => {
 
         if(!body)return res.status(400).send({message:'Los datos son requeridos para actualizar'});
         if(!body.number) return res.status(404).send({message:'number es requerido'});
+
+        const findRepeated = await period.findOne({
+            where:{
+                number:body.number,
+                statusDelete:false
+            }})
+        if(findRepeated === false)
+            return res.status(200).next()
+        if(findRepeated)
+            return res.status(409).send({message:'Periodo ya existente.'})
+
 
         const validate = await period.findOne({
             where:{ id: params.id },
